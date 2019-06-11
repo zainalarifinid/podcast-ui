@@ -1,7 +1,8 @@
 // authService.js
 import auth0 from "auth0-js";
 import { EventEmitter } from "events";
-import { authConfig } from "../../../auth_config.json";
+import authConfig from "../../../auth_config.json";
+import AuthApiService from './AuthApiService';
 
 const webAuth = new auth0.WebAuth({
     domain: authConfig.domain,
@@ -10,6 +11,11 @@ const webAuth = new auth0.WebAuth({
     responseType: "id_token",
     scope: "openid profile email"
 });
+
+// const authentication = new auth0.Authentication({
+//     domain: authConfig.domain,
+//     clientID: authConfig.clientId,
+// });
 
 const LOCAL_STORAGE_KEY = "podcastLoggedIn";
 const LOGIN_EVENT = "loginEvent";
@@ -43,7 +49,7 @@ class AuthService extends EventEmitter{
         return new Promise((resolve, reject) => {
             webAuth.parseHash((err, authResult) => {
             if (err) {
-                this.emit(loginEvent, {
+                this.emit(LOGIN_EVENT, {
                 loggedIn: false,
                 error: err,
                 errorMsg: err.statusText
@@ -116,12 +122,20 @@ class AuthService extends EventEmitter{
         });
     }
 
+    register(email, username, password){
+        try {
+            const authApiService = new AuthApiService();
+
+            authApiService.register(email, username, password);
+
+            // console.log(result);
+
+        } catch (error) {
+            // console.log(error);
+        }
+    }
+
 }
 
-
-const service = new AuthService();
-
-service.setMaxListeners(5);
-
-export default service;
+export default new AuthService();
 
