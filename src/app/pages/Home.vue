@@ -44,7 +44,7 @@
                 <v-tab-item
                   :key="login"
                 >
-                  <LoginForm v-on:login="login" />
+                  <LoginForm />
                 </v-tab-item>
                 <v-tab-item
                   :key="register"
@@ -97,22 +97,22 @@ export default {
     }
   },
 
-  methods: {
-    login() {
-      this.$auth.login();
-    },
-    logout() {
-      this.$auth.logOut();
-    },
-    handleLoginEvent(data) {
-      this.isAuthenticated = data.loggedIn;
-      this.profile = data.profile;
-    },
-    register(){
-      this.$auth.register(this.email, this.username, this.password);
-    }
+  // methods: {
+  //   login() {
+  //     this.$auth.login();
+  //   },
+  //   logout() {
+  //     this.$auth.logOut();
+  //   },
+  //   handleLoginEvent(data) {
+  //     this.isAuthenticated = data.loggedIn;
+  //     this.profile = data.profile;
+  //   },
+  //   register(){
+  //     this.$auth.register(this.email, this.username, this.password);
+  //   }
     
-  }
+  // }
 };
 </script>
 
