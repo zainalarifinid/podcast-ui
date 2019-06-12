@@ -9,10 +9,10 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                    <v-text-field id="email" prepend-icon="email" name="email" label="Email" type="email" v-on:input="inputEmail(this)" />
-                    <v-text-field id="username" prepend-icon="person" name="login" label="Username" type="text" v-on:input="inputUsername(this)" ></v-text-field>
-                    <v-text-field id="register_password" prepend-icon="lock" name="password" label="Password" type="password" v-on:input="inputPassowrd(this)" ></v-text-field>
-                    <v-text-field id="repassword" prepend-icon="lock" name="repassword" label="Re-Password" type="password" v-on:input="inputRePassword(this)" ></v-text-field>
+                    <v-text-field id="email" prepend-icon="email" name="email" label="Email" type="email" v-on:input="inputEmail = $event.target.value" />
+                    <v-text-field id="username" prepend-icon="person" name="login" label="Username" type="text" v-on:input="inputUsername = $event.target.value" ></v-text-field>
+                    <v-text-field id="register_password" prepend-icon="lock" name="password" label="Password" type="password" v-on:input="inputPassword = $event.target.value" ></v-text-field>
+                    <v-text-field id="repassword" prepend-icon="lock" name="repassword" label="Re-Password" type="password" v-on:input="inputRePassword = $event.target.value" ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>

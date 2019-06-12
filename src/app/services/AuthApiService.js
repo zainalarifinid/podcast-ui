@@ -1,12 +1,12 @@
 
-import Http from 'http';
+
 // import { isUndef } from "../../common/common";
 import authConfig from '../../../auth_config.json';
+import axios from "axios";
 
 class AuthApiService{
 
     constructor(){
-        this.http = Http;
 
     }
 
@@ -21,7 +21,7 @@ class AuthApiService{
             client_secret: authConfig.clientSecret,
             json: true
         }
-        return this.http.post(urlLogin, paramLogin);
+        return axios.post(urlLogin, paramLogin);
     }
 
     register(email, username, password){
@@ -34,7 +34,7 @@ class AuthApiService{
             name: username,
             connection: 'Username-Password-Authentication'
         }
-        return this.http.post(urlRegister, paramRegister);
+        return axios.post(urlRegister, paramRegister);
     }
 
     logout(){
@@ -44,7 +44,7 @@ class AuthApiService{
             returnTo: authConfig.domain
         };
 
-        return this.http.post(urlLogout, paramLogout);
+        return axios.post(urlLogout, paramLogout);
 
     }
 
