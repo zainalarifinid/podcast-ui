@@ -19,8 +19,15 @@
       <!-- <HelloWorld/> -->
 
       <div v-if="!isAuthenticated">
-
-        <v-container fluid fill-height>
+        <v-container>
+          <v-layout align-center justify-center >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="accent" @click="login" >Login</v-btn>
+            </v-card-actions>
+          </v-layout>
+        </v-container>
+        <!-- <v-container fluid fill-height>
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
 
@@ -59,7 +66,7 @@
               </v-tabs>  
             </v-flex>
           </v-layout>
-        </v-container>
+        </v-container> -->
       </div>
       <div v-if="isAuthenticated">
         
@@ -70,15 +77,15 @@
 </template>
 
 <script>
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+// import LoginForm from '../components/LoginForm';
+// import RegisterForm from '../components/RegisterForm';
 
 export default {
   name: "home",
   components: {
     // HelloWorld
-    LoginForm,
-    RegisterForm
+    // LoginForm,
+    // RegisterForm
   },
   data () {
     return {
@@ -96,6 +103,12 @@ export default {
       // console.log(e);
     }
   },
+
+  methods: {
+    login() {
+      this.$auth.login()
+    }
+  }
 
   // methods: {
   //   login() {

@@ -3,12 +3,12 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import JwtService from "./jwtService";
-import { DOMAIN_AUTH0, CLIENTID_AUTH0, CLIENTSECRET_AUTH0, API_URL } from "./config";
+import AppConfig from "./config";
 
 const ApiService = {
     init() {
         Vue.use(VueAxios, axios);
-        Vue.axios.defaults.baseURL = API_URL;
+        Vue.axios.defaults.baseURL = AppConfig.API_URL;
     },
 
     setHeader(){
@@ -42,21 +42,18 @@ const ApiService = {
 export default ApiService;
 
 const params_default = {
-    client_id: `${CLIENTID_AUTH0}`,
-    client_secret: `${CLIENTSECRET_AUTH0}`
+    client_id: `${AppConfig.CLIENT_ID}`,
+    client_secret: `${AppConfig.CLIENT_SECRET}`
 };
 
 export const AuthService = {
     login(params){
-        const urlLogin = `${DOMAIN_AUTH0}/oauth/token`;
-        params["grant_type"] = "password";
-        params["audience"] = `${DOMAIN_AUTH0}/api/v2/`;
-        params["json"] = true;
+        const urlLogin = "auth/login";
         params = { ...params, ...params_default };
         return ApiService.post(urlLogin, params);
     },
     logout(){
-        const urlLogout = `${DOMAIN_AUTH0}/v2/logout`;
+        const urlLogout = "auth/logout";
         const params = {
             ...params_default,
             returnTo: DOMAIN_AUTH0
@@ -64,10 +61,15 @@ export const AuthService = {
         return ApiService.post(urlLogout, params);
     },
     register(params){
-        const urlRegister = `${DOMAIN_AUTH0}/dbconnections/signup`;
-        params["connection"] = "Username-Password-Authentication";
+        const urlRegister = "auth/signup";
         params = { ...params, ...params_default };
         return ApiService.post(urlRegister, params)
+    }
+}
+
+export const UserService = {
+    list(){
+        return ApiService.post(AppConfig.URL_LIST_USER);
     }
 }
 
