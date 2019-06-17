@@ -4,7 +4,7 @@ import Vuetify from "vuetify";
 import App from './app/App.vue'
 import router from "./router";
 import store from "./app/stores";
-import AuthPlugin from "./app/plugins/auth";
+// import AuthPlugin from "./app/plugins/auth";
 
 import { CHECK_AUTH } from "./app/stores/actionTypes";
 import ApiService from "./common/apiService";
@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
   Promise.all([store.dispatch(CHECK_AUTH)]).then(next);
 } )
 
-Vue.use(AuthPlugin);
+// Vue.use(AuthPlugin);
 Vue.use(Vuetify);
 
 new Vue({

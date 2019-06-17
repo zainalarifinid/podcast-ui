@@ -41,27 +41,23 @@ const ApiService = {
 
 export default ApiService;
 
-const params_default = {
-    client_id: `${AppConfig.CLIENT_ID}`,
-    client_secret: `${AppConfig.CLIENT_SECRET}`
-};
+const params_default = {};
 
 export const AuthService = {
     login(params){
-        const urlLogin = "auth/login";
+        const urlLogin = "http://localhost:3000/api/v1/auth/login";
         params = { ...params, ...params_default };
         return ApiService.post(urlLogin, params);
     },
     logout(){
-        const urlLogout = "auth/logout";
+        const urlLogout = "http://localhost:3000/auth/logout";
         const params = {
-            ...params_default,
-            returnTo: DOMAIN_AUTH0
+            ...params_default
         }
         return ApiService.post(urlLogout, params);
     },
     register(params){
-        const urlRegister = "auth/signup";
+        const urlRegister = "auth/register";
         params = { ...params, ...params_default };
         return ApiService.post(urlRegister, params)
     }

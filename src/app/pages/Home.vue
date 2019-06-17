@@ -1,33 +1,9 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Podcast</span>&nbsp;
-        <span class="font-weight-light">Listening your favourite</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="http://git.achilles.systems/zainalarifin/podcast-application-ui"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
-
     <v-content>
       <!-- <HelloWorld/> -->
-
       <div v-if="!isAuthenticated">
-        <v-container>
-          <v-layout align-center justify-center >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="accent" @click="login" >Login</v-btn>
-            </v-card-actions>
-          </v-layout>
-        </v-container>
-        <!-- <v-container fluid fill-height>
+        <v-container fluid fill-height>
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
 
@@ -66,7 +42,7 @@
               </v-tabs>  
             </v-flex>
           </v-layout>
-        </v-container> -->
+        </v-container>
       </div>
       <div v-if="isAuthenticated">
         
@@ -77,15 +53,15 @@
 </template>
 
 <script>
-// import LoginForm from '../components/LoginForm';
-// import RegisterForm from '../components/RegisterForm';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 export default {
   name: "home",
   components: {
     // HelloWorld
-    // LoginForm,
-    // RegisterForm
+    LoginForm,
+    RegisterForm
   },
   data () {
     return {
@@ -95,20 +71,6 @@ export default {
       password: ''
     };
   },
-
-  async created() {
-    try {
-      await this.$auth.renewTokens();
-    } catch (e) {
-      // console.log(e);
-    }
-  },
-
-  methods: {
-    login() {
-      this.$auth.login()
-    }
-  }
 
   // methods: {
   //   login() {
