@@ -4,9 +4,9 @@ import JwtService from "../../common/jwtService";
 import { 
     LOGIN,
     LOGOUT,
-    REGISTER
+    REGISTER,
+    CHECK_AUTH
  } from "./actionTypes";
- import { DOMAIN_AUTH0, CLIENTID_AUTH0 } from "../../common/config";
  import { SET_AUTH, PURGE_AUTH, SET_ERROR } from "./mutationTypes";
 
  const state = {
@@ -19,6 +19,7 @@ import {
      currentUser(state){
          return state.user;
      },
+
      isAuthenticated(state){
          return state.isAuthenticated;
      }
@@ -37,9 +38,11 @@ import {
                 })
          })
      },
+
      [LOGOUT](context){
          context.commit(PURGE_AUTH);
      },
+
      [REGISTER](context, credentials){
          return new Promise((resolve, reject) => {
             AuthService.register(credentials)
@@ -52,6 +55,21 @@ import {
                     reject(response);
                 })
          })
+     },
+
+     [CHECK_AUTH](context) {
+         if (JwtService.getToken()) {
+             ApiService.setHeader();
+             ApiService.get("user")
+                .then(({ data }) => {
+                    context.commit(SET_AUTH, data);
+                })
+                .catch(({ response }) => {
+                    context.commit(SET_ERROR, response.data.errors);
+                })
+         }else{
+             context.commit(PURGE_AUTH);
+         }
      }
  };
 

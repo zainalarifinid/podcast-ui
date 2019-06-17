@@ -1,11 +1,16 @@
 <template>
     <div>
-        <h2 v-text="podcast.title" />
-        <p v-text="podcast.description" />
+        <feed-meta isPreview :podcast="podcast" ></feed-meta>
+        <router-link :to="podcastLink" >
+            <h2 v-text="podcast.title" />
+            <p v-text="podcast.description" />
+        </router-link>
     </div>
 </template>
 
 <script>
+
+import FeedMeta from "./FeedActions";
 
 export default {
     name: 'FeedPreview',

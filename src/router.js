@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./app/pages/Home";
+import Feed from "./app/pages/Feed";
 // import auth from "./app/services/authService";
 
 Vue.use(Router);
@@ -13,6 +14,11 @@ const router = new Router({
             path: "/",
             name: "home",
             component: Home
+        },
+        {
+            path: "/feed",
+            name: "feed",
+            component: Feed
         }
     ]
 });

@@ -5,23 +5,59 @@
             <div v-if="listPodcast.length === 0" >
                 No feeds are here...
             </div>
-            
+            <FeedPreview 
+                v-for="(podcast, index) in podcasts"
+                :podcast="podcast"
+                :key="podcast.title+index"
+            />
         </div>
     </div>
 </template>
 
 <script>
 
-    export default {
-        name: "feedList",
-        data(){
-            return {
-                listPodcast: []
-            }
-        },
-        methods: {
+import FeedPreview from "./FeedPreview";    
+import { FETCH_PODCAST } from '../stores/actionTypes';
+import { mapGetters } from 'vuex';
+
+export default {
+    name: "FeedList",
+    components: {
+        FeedPreview,
+    },
+    data(){
+        return {
+            listPodcast: []
+        }
+    },
+    computed: {
+        listConfig() {
+            const { type } = this;
+            const filters = {
+                offset: (this.currentPage - 1) * this.itemsPerPage,
+                limit: this.itemsPerPage
+            };
             
+            return {
+                type,
+                filters
+            };
+        },
+        ...mapGetters(["podcastCount", "isLoading", "podcasts"])
+    },
+    mounted(){
+        this.fetchPodcast();
+    },
+    methods: {
+        fetchPodcast() {
+            this.$store.dispatch(FETCH_PODCAST, this.listConfig)
+        },
+
+        resetPagination() {
+            this.listConfig.offset = 0;
+            this.currentPage = 1;
         }
     }
+}
 
 </script>
