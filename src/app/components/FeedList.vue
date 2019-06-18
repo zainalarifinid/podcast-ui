@@ -2,7 +2,7 @@
     <div>
         <div v-if="isLoading" >Loading articles...</div>
         <div v-else >
-            <div v-if="listPodcast.length === 0" >
+            <div v-if="podcastsCount === 0" >
                 No feeds are here...
             </div>
             <FeedPreview 
@@ -16,9 +16,9 @@
 
 <script>
 
+import { mapGetters } from 'vuex';
 import FeedPreview from "./FeedPreview";    
 import { FETCH_PODCAST } from '../stores/actionTypes';
-import { mapGetters } from 'vuex';
 
 export default {
     name: "FeedList",
@@ -27,7 +27,7 @@ export default {
     },
     data(){
         return {
-            listPodcast: []
+            currentPage: 1
         }
     },
     computed: {
@@ -43,7 +43,8 @@ export default {
                 filters
             };
         },
-        ...mapGetters(["podcastCount", "isLoading", "podcasts"])
+
+        ...mapGetters(["podcastsCount", "isLoading", "podcasts"])
     },
     mounted(){
         this.fetchPodcast();

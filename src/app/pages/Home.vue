@@ -57,7 +57,7 @@ import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
 export default {
-  name: "home",
+  name: "HomePage",
   components: {
     // HelloWorld
     LoginForm,

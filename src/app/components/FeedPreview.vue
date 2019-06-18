@@ -1,10 +1,20 @@
 <template>
     <div>
         <feed-meta isPreview :podcast="podcast" ></feed-meta>
-        <router-link :to="podcastLink" >
-            <h2 v-text="podcast.title" />
-            <p v-text="podcast.description" />
-        </router-link>
+        <v-layout row wrap>
+            <v-flex xs3>
+                <img v-bind:src="'https://img.youtube.com/vi/'+podcast.youtubeLink.replace('https://www.youtube.com/watch?v=', '')+'/0.jpg'" width="250px" />
+            </v-flex>
+            <v-flex xs8>
+                <v-card style="padding: 15px;min-height: 180px;" >
+                    <router-link :to="podcastLink" >
+                        <h2 v-text="podcast.title" />
+                        <p v-text="podcast.youtubeLink" />
+                        <p v-text="podcast.description" />
+                    </router-link>
+                </v-card>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -23,7 +33,7 @@ export default {
     computed: {
         podcastLink() {
             return {
-                name: "podcast",
+                name: "DetailPodcast",
                 params: {
                     slug: this.podcast.id
                 }

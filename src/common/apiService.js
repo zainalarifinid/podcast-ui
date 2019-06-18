@@ -3,12 +3,12 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import JwtService from "./jwtService";
-import AppConfig from "./config";
+import { API_URL } from "./config";
 
 const ApiService = {
     init() {
         Vue.use(VueAxios, axios);
-        Vue.axios.defaults.baseURL = AppConfig.API_URL;
+        Vue.axios.defaults.baseURL = API_URL;
     },
 
     setHeader(){
@@ -45,12 +45,12 @@ const params_default = {};
 
 export const AuthService = {
     login(params){
-        const urlLogin = "http://localhost:3000/api/v1/auth/login";
+        const urlLogin = "auth/login";
         params = { ...params, ...params_default };
         return ApiService.post(urlLogin, params);
     },
     logout(){
-        const urlLogout = "http://localhost:3000/auth/logout";
+        const urlLogout = "auth/logout";
         const params = {
             ...params_default
         }
@@ -64,8 +64,56 @@ export const AuthService = {
 }
 
 export const UserService = {
-    list(){
-        return ApiService.post(AppConfig.URL_LIST_USER);
+    list() {
+        return ApiService.get("users");
+    },
+
+    create(params) {
+        return ApiService.post("users", params);
+    },
+
+    detail(){
+        return ApiService.get("users/detail");
+    }
+
+}
+
+export const PodcastService = {
+    list() {
+        return ApiService.get("podcasts");
+    },
+
+    get(slug) {
+        return ApiService.get("podcasts/detail", slug);
+    },
+
+    create(params) {
+        return ApiService.post("podcasts", params);
+    },
+
+    update(slug, params) {
+        return ApiService.update("podcasts", slug, params);
+    },
+
+    destroy(slug) {
+        return ApiService.delete(`podcasts/${slug}`);
     }
 }
 
+export const PlaylistService = {
+    list() {
+        return ApiService.get("playlists");
+    },
+
+    create(params) {
+        return ApiService.post("playlists", params);
+    },
+
+    update(slug, params) {
+        return ApiService.update("playlists", slug, params);
+    },
+
+    destroy(slug){
+        return ApiService.delete(`playlists/${slug}`);
+    }
+}

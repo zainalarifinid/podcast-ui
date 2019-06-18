@@ -30,7 +30,7 @@ import {
          return new Promise(resolve => {
              AuthService.login(credentials)
                 .then(({ data }) => {
-                    context.commit(SET_AUTH, data.user);
+                    context.commit(SET_AUTH, data);
                     resolve(data);
                 })
                 .catch(({ response }) => {
@@ -47,7 +47,7 @@ import {
          return new Promise((resolve, reject) => {
             AuthService.register(credentials)
                 .then(({ data }) => {
-                    context.commit(SET_AUTH, data.user);
+                    context.commit(SET_AUTH, data);
                     resolve(data);
                 })
                 .catch(({ response }) => {
@@ -58,14 +58,14 @@ import {
      },
 
      [CHECK_AUTH](context) {
-         if (JwtService.getToken()) {
+         if (typeof JwtService.getToken() !== "") {
              ApiService.setHeader();
-             ApiService.get("user")
+             ApiService.post("auth/verify", { token: JwtService.getToken() })
                 .then(({ data }) => {
                     context.commit(SET_AUTH, data);
                 })
                 .catch(({ response }) => {
-                    context.commit(SET_ERROR, response.data.errors);
+                    context.commit(SET_ERROR, response);
                 })
          }else{
              context.commit(PURGE_AUTH);
@@ -77,11 +77,11 @@ import {
      [SET_ERROR](state, error){
          state.errors = error;
      },
-     [SET_AUTH](state, user){
+     [SET_AUTH](state, dataLogin){
          state.isAuthenticated = true;
-         state.user = user;
          state.errors = {};
-         JwtService.saveToken(state.user.token)
+         console.log(dataLogin.accessToken);
+         JwtService.saveToken(dataLogin.accessToken)
      },
      [PURGE_AUTH](state){
          state.isAuthenticated = false;
