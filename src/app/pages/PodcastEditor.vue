@@ -6,23 +6,23 @@
                 v-on:submit.prevent="onPublish"
             >
                 <v-text-field
-                    v-model="title"
+                    v-model="podcast.title"
                     label="Title"
-                    error-messages="Doremi"
+                    error-messages=""
                     >
                 </v-text-field>
                 <v-text-field
-                    v-model="duration"
+                    v-model="podcast.duration"
                     label="Duration"
                     >
                 </v-text-field>
                 <v-textarea
-                    v-model="description"
+                    v-model="podcast.description"
                     label="Description"
                     >
                 </v-textarea>
                 <v-text-field
-                    v-model="youtubeLink"
+                    v-model="podcast.youtubeLink"
                     label="Youtube Link"
                     >
                 </v-text-field>
@@ -45,17 +45,18 @@ export default {
      data(){
         return {
             inProgress: false,
-            errors: {}
+            errors: {},
+            podcast: Object()
         }
     },
-    async beforeRouteUpdate(to, from, next){
-        await store.dispatch(PODCAST_RESET_STATE);
-        return next();
-    },
-    async beforeRouteEnter(to, from, next){
-        await store(PODCAST_RESET_STATE);
-        return next();
-    },
+    // async beforeRouteUpdate(to, from, next){
+    //     await store.dispatch(PODCAST_RESET_STATE);
+    //     return next();
+    // },
+    // async beforeRouteEnter(to, from, next){
+    //     await store(PODCAST_RESET_STATE);
+    //     return next();
+    // },
     computed: {
         ...mapGetters["podcast"]
     },
@@ -63,7 +64,7 @@ export default {
         onPublish() {
             this.inProgress = true;
             this.$store
-                .dispatch(PODCAST_SAVE)
+                .dispatch(PODCAST_SAVE, podcast)
                 .then(({ data }) => {
                     this.inProgress = false;
                     this.$router.push({
