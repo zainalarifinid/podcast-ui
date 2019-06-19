@@ -32,12 +32,7 @@
                 <v-tab-item
                   :key="register"
                 >
-                  <RegisterForm
-                    v-on:inputEmail="email"
-                    v-on:inputUsername="username"
-                    v-on:inputPassowrd="password"
-                    v-on:register="register"
-                  />
+                  <RegisterForm/>
                 </v-tab-item>
               </v-tabs>  
             </v-flex>
@@ -45,7 +40,9 @@
         </v-container>
       </div>
       <div v-if="isAuthenticated">
-        
+        <div class="feed-container" >
+          <FeedList />
+        </div>
       </div>
 
     </v-content>
@@ -53,24 +50,30 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import FeedList from '../components/FeedList'
 
 export default {
   name: "HomePage",
   components: {
     // HelloWorld
     LoginForm,
-    RegisterForm
+    RegisterForm,
+    FeedList
   },
   data () {
     return {
-      isAuthenticated: false,
       email: '',
       username: '',
       password: ''
     };
   },
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  }
 
   // methods: {
   //   login() {
@@ -104,4 +107,10 @@ export default {
   left: 0;
   right: 0;
 }
+
+.feed-container{
+    padding-top: 100px;
+    padding-left: 50px;
+}
+
 </style>

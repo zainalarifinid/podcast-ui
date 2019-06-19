@@ -3,6 +3,7 @@ export const PODCAST_SAVE = 'savePodcast';
 export const PODCAST_EDIT = 'editPodcast';
 export const PODCAST_DELETE = 'deletePodcast';
 export const PODCAST_RESET_STATE = 'resetPodcastState';
+export const PODCAST_SEARCH = 'searchPodcast';
 export const CHECK_AUTH = 'checkAuth';
 export const PLAYLIST_SAVE = 'savePlaylist';
 export const PLAYLIST_EDIT = 'editPlaylist';

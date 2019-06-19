@@ -17,7 +17,19 @@ Vue.config.productionTip = false
 ApiService.init();
 
 router.beforeEach((to, from, next) => {
-  Promise.all([store.dispatch(CHECK_AUTH)]).then(next);
+  Promise.all([store.dispatch(CHECK_AUTH)])
+    .then((result) => {
+      console.log( to, store.state.authModule.isAuthenticated );
+      if(to.path === "/login" || to.path === "/") return next();
+      if(store.state.authModule.isAuthenticated){
+        next();
+      }else{
+        next("/login");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 } )
 
 // Vue.use(AuthPlugin);

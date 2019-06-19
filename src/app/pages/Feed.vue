@@ -10,7 +10,7 @@ import FeedList from '../components/FeedList'
 export default {
     name: 'FeedPage',
     components: {
-        FeedList
+    FeedList
     }
 }
 </script>

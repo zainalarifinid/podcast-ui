@@ -47,7 +47,7 @@ import {
          return new Promise((resolve, reject) => {
             AuthService.register(credentials)
                 .then(({ data }) => {
-                    context.commit(SET_AUTH, data);
+                    // context.commit(SET_AUTH, data);
                     resolve(data);
                 })
                 .catch(({ response }) => {
@@ -62,6 +62,7 @@ import {
              ApiService.setHeader();
              ApiService.post("auth/verify", { token: JwtService.getToken() })
                 .then(({ data }) => {
+                    console.log("CHECK_AUTH", data);
                     context.commit(SET_AUTH, data);
                 })
                 .catch(({ response }) => {

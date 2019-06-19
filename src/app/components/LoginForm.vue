@@ -41,7 +41,7 @@
       onSubmit(email, password){
         this.$store
           .dispatch(LOGIN, {email, password})
-          .then(() => this.$router.push({name: "feed"}));
+          .then(() => this.$router.push({name: "HomePage"}));
       }
     },
     computed: {

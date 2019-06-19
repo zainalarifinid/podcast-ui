@@ -3,7 +3,9 @@ import Router from "vue-router";
 import Home from "./app/pages/Home";
 import Feed from "./app/pages/Feed";
 import PodcastEditor from "./app/pages/PodcastEditor";
-// import auth from "./app/services/authService";
+import Login from "./app/pages/Login";
+import Profile from "./app/pages/Profile";
+import Explorer from "./app/pages/Explorer";
 
 Vue.use(Router);
 
@@ -30,6 +32,21 @@ const router = new Router({
             path: "/detail-podcast",
             name: "DetailPodcast",
             
+        },
+        {
+            path: "/login",
+            name: "LoginPage",
+            component: Login
+        },
+        {
+            path: "/profile",
+            name: "ProfilePage",
+            component: Profile
+        },
+        {
+            path: "/explorer",
+            name: "ExplorerPage",
+            component: Explorer
         }
     ]
 });

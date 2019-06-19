@@ -4,7 +4,11 @@ import { SET_PROFILE } from "./mutationTypes";
 
 const state = {
     errors: {},
-    profile: {}
+    profile: {
+        username: '',
+        email: '',
+        password: ''
+    }
 };
 
 const getters = {
@@ -15,10 +19,11 @@ const getters = {
 
 const actions = {
     [FETCH_PROFILE](context, payload) {
-        const { username } = payload;
-        return ApiService.get("profiles", username)
+        // const { username } = payload;
+        return ApiService.get("users/detail")
             .then(({ data }) => {
-                context.commit(SET_PROFILE, data.profile);
+                console.log(data);
+                context.commit(SET_PROFILE, data);
                 return data;
             })
             .catch(() => {

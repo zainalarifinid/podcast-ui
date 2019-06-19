@@ -1,6 +1,7 @@
 
 export const FETCH_END = "setPodcasts";
 export const FETCH_START = "setLoading";
+export const SET_PODCAST = "setPodcast";
 export const SET_AUTH = "setUser";
 export const SET_PROFILE = "setProfile";
 export const PURGE_AUTH = "logOut";

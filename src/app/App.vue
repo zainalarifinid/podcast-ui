@@ -24,6 +24,16 @@
           </v-btn>
         </router-link>
         <v-spacer></v-spacer>
+        <router-link
+          :to="{ name: 'ExplorerPage' }"
+        >
+          <v-btn
+            flat
+          >
+            <span class="mr-2">Explorer</span>
+          </v-btn>
+        </router-link>
+        <v-spacer></v-spacer>
         <v-toolbar-items v-if="isAuthenticated" >
           <router-link
             :to="{ name: 'PodcastEditor' }"
@@ -36,7 +46,7 @@
           </router-link>
           <v-spacer></v-spacer>
           <router-link
-            :to="{ name: 'HomePage' }"
+            :to="{ name: 'ProfilePage' }"
           >
             <v-btn
               flat
