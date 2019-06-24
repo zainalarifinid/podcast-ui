@@ -17,6 +17,7 @@ import {
 
  const getters = {
      currentUser(state){
+         console.log(state.user);
          return state.user;
      },
 
@@ -66,6 +67,7 @@ import {
                     context.commit(SET_AUTH, data);
                 })
                 .catch(({ response }) => {
+                    context.commit(PURGE_AUTH);
                     context.commit(SET_ERROR, response);
                 })
          }else{
@@ -81,7 +83,10 @@ import {
      [SET_AUTH](state, dataLogin){
          state.isAuthenticated = true;
          state.errors = {};
-         console.log(dataLogin.accessToken);
+         state.user = {
+            email: dataLogin.email,
+            username: dataLogin.username
+         };
          JwtService.saveToken(dataLogin.accessToken)
      },
      [PURGE_AUTH](state){

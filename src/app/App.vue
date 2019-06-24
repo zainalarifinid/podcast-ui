@@ -46,7 +46,7 @@
           </router-link>
           <v-spacer></v-spacer>
           <router-link
-            :to="{ name: 'ProfilePage' }"
+            :to="{ name: 'ProfilePage', params: { username: currentUser.username } }"
           >
             <v-btn
               flat
@@ -76,7 +76,10 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'App',
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(["isAuthenticated", "currentUser"])
+  },
+  mounted(){
+    // console.log("check user from auth", this.currentUser);
   }
 }
 

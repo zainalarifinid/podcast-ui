@@ -1,28 +1,50 @@
-import { FETCH_PROFILE, PROFILE_FOLLOW, PROFILE_UNFOLLOW } from "./actionTypes";
+
+import Vue from "vue";
+import { PROFILE_FOLLOW, PROFILE_UNFOLLOW, PROFILE_SEARCH, FETCH_PROFILE_USER, PROFILE_SEARCH_RESET_STATE } from "./actionTypes";
 import ApiService from "../../common/apiService";
-import { SET_PROFILE } from "./mutationTypes";
+import { SET_PROFILE, FETCH_PROFILE, RESET_SEARCH_PROFILE } from "./mutationTypes";
+
+const initialState = {
+    profile: {
+        id: 0,
+        username: "",
+        email: "",
+        password: "",
+        playlists: [],
+        podcasts: [],
+        followers: [],
+        followings: []
+    }
+};
 
 const state = {
     errors: {},
-    profile: {
-        username: '',
-        email: '',
-        password: ''
-    }
+    currentProfile: {},
+    profiles: [],
+    profilesCount: 0,
+    ...initialState
 };
 
 const getters = {
     profile(state) {
         return state.profile;
+    },
+
+    profiles(state) {
+        return state.profiles;
+    },
+
+    profilesCount(state) {
+        return state.profilesCount;
     }
 }
 
 const actions = {
-    [FETCH_PROFILE](context, payload) {
+    [FETCH_PROFILE_USER](context, username) {
         // const { username } = payload;
-        return ApiService.get("users/detail")
+        return ApiService.get(`profile/${username}`)
             .then(({ data }) => {
-                console.log(data);
+                console.log("Get Profile", data);
                 context.commit(SET_PROFILE, data);
                 return data;
             })
@@ -43,7 +65,7 @@ const actions = {
             });
     },
 
-    [PROFILE_UNFOLLOW](context, payload){
+    [PROFILE_UNFOLLOW](context, payload) {
         const { username } = payload;
         return ApiService.delete(`profile/${username}/follow`)
             .then(({ data }) => {
@@ -53,6 +75,17 @@ const actions = {
             .catch(() => {
 
             });
+    },
+
+    [PROFILE_SEARCH](context, username) {
+        return ApiService.get(`users/search/${username}`)
+            .then(({ data }) => {
+                context.commit(FETCH_PROFILE, data);
+            })
+    },
+
+    [PROFILE_SEARCH_RESET_STATE](context) {
+        context.commit(RESET_SEARCH_PROFILE)
     }
 };
 
@@ -61,7 +94,26 @@ const mutations = {
     [SET_PROFILE](state, profile) {
         state.profile = profile;
         state.errors = {};
+    },
+
+    [RESET_PROFILE](state, profile) {
+        for(let f in state) {
+            Vue.set(state, f, initialState[f]);
+        }
     }
+
+    [FETCH_PROFILE](state, profile) {
+        console.log(profile);
+        state.profiles = profile;
+        state.profilesCount = profile.length;
+        state.errors = {}
+    },
+
+    [RESET_SEARCH_PROFILE](state){
+        state.profiles = [];
+        state.profilesCount = 0;
+    }
+
 
 };
 

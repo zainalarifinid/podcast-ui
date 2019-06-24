@@ -41,7 +41,11 @@
       </div>
       <div v-if="isAuthenticated">
         <div class="feed-container" >
-          <FeedList />
+          <v-layout row wrap>
+            <v-flex xs8 >
+              <FeedList />
+            </v-flex>
+          </v-layout>
         </div>
       </div>
 
@@ -59,7 +63,6 @@ import FeedList from '../components/FeedList'
 export default {
   name: "HomePage",
   components: {
-    // HelloWorld
     LoginForm,
     RegisterForm,
     FeedList

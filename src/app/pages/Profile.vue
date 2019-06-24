@@ -19,6 +19,50 @@
                         <v-flex xs12 sm8 md8 >
                             Password <span>: {{profile.password}}</span>
                         </v-flex>
+                        <v-flex xs12 sm8 md8 >
+                            <v-layout>
+                                <v-flex xs6 sm6 md6 >
+                                    Follower <span>: <router-link :to="detailFollower" >{{profile.followersCount}}</router-link> </span>
+                                </v-flex>
+                                <v-flex xs6 sm6 md6 >
+                                    Following <span>: {{profile.followingCount}} </span>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+
+                        <v-flex xs12 sm8 md8 >
+                            <v-layout>
+                                <v-card v-for="(playlist, index) in profile.playlists" 
+                                    :key="index"
+                                    class="playlist-card"
+                                >
+                                    {{ playlist.title }}
+                                </v-card>
+                                <router-link :to="createPlaylist" >
+                                    <v-card class="playlist-card" >
+                                        Add New Playlist
+                                    </v-card>
+                                </router-link>
+                            </v-layout>
+                        </v-flex>
+                        
+                        <v-flex xs12 sm12 md12 >
+                            <v-layout>
+                                <FeedPreview 
+                                    v-for="(podcast, index) in profile.podcasts"
+                                    :podcast="podcast"
+                                    :key="podcast.title+index"
+                                />
+                                <!-- <v-card v-for="(podcast, index) in profile.podcasts" 
+                                    :key="index"
+                                    style="padding: 20px;margin: 10px 10px;"
+                                >
+                                    {{ podcast.title }}
+                                </v-card> -->
+                            </v-layout>
+                        </v-flex>
+
+
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -29,12 +73,19 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { FETCH_PROFILE, LOGOUT } from "../stores/actionTypes";
+import { FETCH_PROFILE_USER, LOGOUT } from "../stores/actionTypes";
+import FeedPreview from "../components/FeedPreview";
 
 export default {
     name: "ProfilePage",
     data() {
         return {};
+    },
+    components: {
+        FeedPreview
+    },
+    props: {
+        username: { type: String, required: true }
     },
     computed: {
         ...mapGetters(["profile"])
@@ -44,12 +95,28 @@ export default {
     },
     methods: {
         fetchProfile() {
-            this.$store.dispatch(FETCH_PROFILE);
+            console.log("Profile Page Mounted", this.username, this.$route.params.username);
+            this.$store.dispatch(FETCH_PROFILE_USER, this.username);
         },
+
         logout() {
             this.$store.dispatch(LOGOUT).then(() => {
                 this.$router.push({ name: "HomePage" })
             })
+        },
+
+        detailFollower() {
+            console.log("detail Follower");
+        },
+
+        detailFollowing() {
+            console.log("detail Following");
+        },
+
+        createPlaylist() {
+            return {
+                name: "CreatePlaylist",
+            }
         }
     }
 }
@@ -64,6 +131,11 @@ export default {
 
     .profile-card{
         padding: 20px;
+    }
+
+    .playlist-card{
+        padding: 20px;
+        margin: 0px 10px;
     }
 
 </style>

@@ -39,9 +39,10 @@ const router = new Router({
             component: Login
         },
         {
-            path: "/profile",
+            path: "/profile/:username",
             name: "ProfilePage",
-            component: Profile
+            component: Profile,
+            props: true
         },
         {
             path: "/explorer",

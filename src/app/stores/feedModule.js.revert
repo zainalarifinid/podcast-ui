@@ -8,9 +8,9 @@ import {
 import { FETCH_PODCAST } from "./actionTypes";
 
 const state = {
-    podcasts: [],
-    isLoading: true,
-    podcastsCount: 0
+    // podcasts: [],
+    // isLoading: true,
+    // podcastsCount: 0
 };
 
 const getters = {

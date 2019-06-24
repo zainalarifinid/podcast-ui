@@ -99,9 +99,9 @@ export const PodcastService = {
         return ApiService.delete(`podcasts/${slug}`);
     },
 
-    // search(slug) {
-    //     return 
-    // }
+    search(slug) {
+        return ApiService.get(`podcasts/search/${slug}`);
+    }
 }
 
 export const PlaylistService = {
