@@ -1,8 +1,8 @@
 
 import Vue from "vue";
-import { PROFILE_FOLLOW, PROFILE_UNFOLLOW, PROFILE_SEARCH, FETCH_PROFILE_USER, PROFILE_SEARCH_RESET_STATE } from "./actionTypes";
+import { PROFILE_FOLLOW, PROFILE_UNFOLLOW, PROFILE_SEARCH, FETCH_PROFILE_USER, PROFILE_SEARCH_RESET_STATE, FETCH_PROFILE_RESET } from "./actionTypes";
 import ApiService from "../../common/apiService";
-import { SET_PROFILE, FETCH_PROFILE, RESET_SEARCH_PROFILE } from "./mutationTypes";
+import { SET_PROFILE, FETCH_PROFILE, RESET_SEARCH_PROFILE, RESET_PROFILE } from "./mutationTypes";
 
 const initialState = {
     profile: {
@@ -44,7 +44,7 @@ const actions = {
         // const { username } = payload;
         return ApiService.get(`profile/${username}`)
             .then(({ data }) => {
-                console.log("Get Profile", data);
+                console.log("Get Profile", data, data.playlists);
                 context.commit(SET_PROFILE, data);
                 return data;
             })
@@ -86,7 +86,12 @@ const actions = {
 
     [PROFILE_SEARCH_RESET_STATE](context) {
         context.commit(RESET_SEARCH_PROFILE)
+    },
+
+    [FETCH_PROFILE_RESET]({ commit }) {
+        commit(RESET_PROFILE);
     }
+
 };
 
 const mutations = {
@@ -96,11 +101,11 @@ const mutations = {
         state.errors = {};
     },
 
-    [RESET_PROFILE](state, profile) {
+    [RESET_PROFILE](state) {
         for(let f in state) {
             Vue.set(state, f, initialState[f]);
         }
-    }
+    },
 
     [FETCH_PROFILE](state, profile) {
         console.log(profile);

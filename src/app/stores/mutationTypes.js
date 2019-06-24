@@ -16,3 +16,6 @@ export const FETCH_PROFILE = "searchProfiles"
 export const SET_SEARCH_PODCAST = "setSearchPodcast";
 export const RESET_SEARCH_PROFILE = "resetSearchProfile";
 export const RESET_SEARCH_PODCAST = "resetSearchPodcast";
+
+//Playlist
+export const SET_PLAYLISTS = "setPlaylists";

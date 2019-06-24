@@ -109,6 +109,18 @@ export const PlaylistService = {
         return ApiService.get("playlists");
     },
 
+    listFromUser(username, idPodcast) {
+        return ApiService.post("playlists/detail-from", { username: username, idPodcast: idPodcast })
+    },
+
+    addToPlaylist(idPlaylist, idPodcast) {
+        return ApiService.post(`playlists/${idPlaylist}/add-playlist/${idPodcast}`);
+    },
+
+    removeFromPlaylist(idPlaylist, idPodcast) {
+        return ApiService.post(`playlists/${idPlaylist}/remove-playlist/${idPodcast}`);
+    },
+
     create(params) {
         return ApiService.post("playlists", params);
     },

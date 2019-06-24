@@ -7,7 +7,8 @@ import {
     PODCAST_EDIT, 
     PODCAST_RESET_STATE,
     PODCASTS_RESET_STATE,
-    PODCAST_SEARCH
+    PODCAST_SEARCH,
+    FETCH_DETAIL_PODCAST
  } from "./actionTypes";
 import { 
     SET_PODCAST, 
@@ -51,6 +52,18 @@ export const actions = {
 
     [PODCAST_SAVE]({ state }) {
         return PodcastService.create(state.podcast);
+    },
+
+    [FETCH_DETAIL_PODCAST](context, idPodcast){
+        console.log("Detail Podcast get idPodcast", idPodcast);
+        return PodcastService.get(idPodcast)
+                            .then(({ data }) => {
+                                console.log("get data podcast", data);
+                                context.commit(SET_PODCAST, data);
+                            })
+                            .catch( error => {
+                                throw new Error(error);
+                            } )
     },
 
     [PODCAST_DELETE](idPodcast){

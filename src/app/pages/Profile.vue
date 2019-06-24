@@ -32,33 +32,33 @@
 
                         <v-flex xs12 sm8 md8 >
                             <v-layout>
+                                <router-link :to="{ name: 'PlaylistEditor' }" >
+                                    <v-card class="playlist-card" >
+                                        Add New Playlist
+                                    </v-card>
+                                </router-link>
                                 <v-card v-for="(playlist, index) in profile.playlists" 
                                     :key="index"
                                     class="playlist-card"
                                 >
                                     {{ playlist.title }}
                                 </v-card>
-                                <router-link :to="createPlaylist" >
-                                    <v-card class="playlist-card" >
-                                        Add New Playlist
-                                    </v-card>
-                                </router-link>
                             </v-layout>
                         </v-flex>
                         
-                        <v-flex xs12 sm12 md12 >
+                        <v-flex xs12 sm12 md12 style="margin-top: 20px;" >
                             <v-layout>
+                                <router-link :to="{ name: 'PodcastEditor' }" >
+                                    <v-card class="playlist-card" >
+                                        Add New Podcast
+                                    </v-card>
+                                </router-link>
                                 <FeedPreview 
                                     v-for="(podcast, index) in profile.podcasts"
                                     :podcast="podcast"
                                     :key="podcast.title+index"
+                                    :username="username"
                                 />
-                                <!-- <v-card v-for="(podcast, index) in profile.podcasts" 
-                                    :key="index"
-                                    style="padding: 20px;margin: 10px 10px;"
-                                >
-                                    {{ podcast.title }}
-                                </v-card> -->
                             </v-layout>
                         </v-flex>
 
@@ -73,7 +73,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { FETCH_PROFILE_USER, LOGOUT } from "../stores/actionTypes";
+import { FETCH_PROFILE_USER, LOGOUT,  } from "../stores/actionTypes";
 import FeedPreview from "../components/FeedPreview";
 
 export default {
@@ -91,12 +91,17 @@ export default {
         ...mapGetters(["profile"])
     },
     mounted(){
+        // this.resetProfileState();
         this.fetchProfile();
     },
     methods: {
         fetchProfile() {
             console.log("Profile Page Mounted", this.username, this.$route.params.username);
             this.$store.dispatch(FETCH_PROFILE_USER, this.username);
+        },
+
+        resetProfileState() {
+            this.$store.dispatch(FETCH_PROFILE_RESET);
         },
 
         logout() {

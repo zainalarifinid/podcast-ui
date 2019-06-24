@@ -28,14 +28,16 @@ export default {
         FeedMeta
     },
     props: {
-        podcast: { type: Object, required: true }
+        podcast: { type: Object, required: true },
+        username: { type: String }
     },
     computed: {
         podcastLink() {
             return {
                 name: "DetailPodcast",
                 params: {
-                    slug: this.podcast.id
+                    idPodcast: this.podcast.id,
+                    username: this.username
                 }
             }
         }

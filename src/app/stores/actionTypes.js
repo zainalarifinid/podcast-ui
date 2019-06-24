@@ -7,6 +7,7 @@ export const PODCAST_RESET_STATE = 'resetPodcastState';
 export const PODCASTS_RESET_STATE = 'resetPodcastsState';
 export const PODCAST_SEARCH = 'searchPodcast';
 export const FETCH_PODCAST = 'fetchPodcast';
+export const FETCH_DETAIL_PODCAST = 'fetchDetailPodcast';
 
 //AUTH
 export const CHECK_AUTH = 'checkAuth';

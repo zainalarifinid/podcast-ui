@@ -35,7 +35,7 @@
         </router-link>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="isAuthenticated" >
-          <router-link
+          <!-- <router-link
             :to="{ name: 'PodcastEditor' }"
           >
             <v-btn
@@ -44,7 +44,7 @@
               <span class="mr-2">Add Podcast</span>
             </v-btn>
           </router-link>
-          <v-spacer></v-spacer>
+          <v-spacer></v-spacer> -->
           <router-link
             :to="{ name: 'ProfilePage', params: { username: currentUser.username } }"
           >
