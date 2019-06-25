@@ -26,6 +26,11 @@
                     label="Youtube Link"
                     >
                 </v-text-field>
+                <div v-if="podcast.youtubeLink !== '' && podcast.youtubeLink" >
+                    <iframe width="420" height="315"
+                    :src="podcast.youtubeLink.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')" >
+                    </iframe>
+                </div>
                 <v-btn
                     type="submit"
                 >
@@ -58,17 +63,17 @@ export default {
     //     return next();
     // },
     computed: {
-        ...mapGetters["podcast"]
+        // ...mapGetters["podcast"]
     },
     methods: {
         onPublish() {
             this.inProgress = true;
             this.$store
-                .dispatch(PODCAST_SAVE, podcast)
+                .dispatch(PODCAST_SAVE, this.podcast)
                 .then(({ data }) => {
                     this.inProgress = false;
                     this.$router.push({
-                        name: "feed"
+                        name: "HomePage"
                     });
                 })
                 .catch(({ response }) => {

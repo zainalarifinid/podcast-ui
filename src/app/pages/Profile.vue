@@ -16,9 +16,9 @@
                         <v-flex xs12 sm8 md8 >
                             Email <span>: {{profile.email}}</span>
                         </v-flex>
-                        <v-flex xs12 sm8 md8 >
+                        <!-- <v-flex xs12 sm8 md8 >
                             Password <span>: {{profile.password}}</span>
-                        </v-flex>
+                        </v-flex> -->
                         <v-flex xs12 sm8 md8 >
                             <v-layout>
                                 <v-flex xs6 sm6 md6 >
@@ -30,9 +30,9 @@
                             </v-layout>
                         </v-flex>
 
-                        <v-flex xs12 sm8 md8 >
-                            <v-layout>
-                                <router-link :to="{ name: 'PlaylistEditor' }" >
+                        <v-flex xs12 sm12 md12 >
+                            <v-layout style="overflow-y: auto;padding: 10px;" >
+                                <router-link :to="{ name: 'PlaylistEditor', props: { username: this.username } }" >
                                     <v-card class="playlist-card" >
                                         Add New Playlist
                                     </v-card>
@@ -53,12 +53,14 @@
                                         Add New Podcast
                                     </v-card>
                                 </router-link>
-                                <FeedPreview 
-                                    v-for="(podcast, index) in profile.podcasts"
-                                    :podcast="podcast"
-                                    :key="podcast.title+index"
-                                    :username="username"
-                                />
+                                <div style="overflow-y: auto;" >
+                                    <FeedPreview 
+                                        v-for="(podcast, index) in profile.podcasts"
+                                        :podcast="podcast"
+                                        :key="podcast.title+index"
+                                        :username="username"
+                                    />
+                                </div>
                             </v-layout>
                         </v-flex>
 
@@ -73,7 +75,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { FETCH_PROFILE_USER, LOGOUT,  } from "../stores/actionTypes";
+import { FETCH_PROFILE_USER, LOGOUT, FETCH_PROFILE_RESET  } from "../stores/actionTypes";
 import FeedPreview from "../components/FeedPreview";
 
 export default {
@@ -91,7 +93,7 @@ export default {
         ...mapGetters(["profile"])
     },
     mounted(){
-        // this.resetProfileState();
+        this.resetProfileState();
         this.fetchProfile();
     },
     methods: {

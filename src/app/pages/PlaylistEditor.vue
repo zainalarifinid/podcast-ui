@@ -32,8 +32,11 @@ export default {
             titlePlaylist: ''
         }
     },
+    props: {
+        username: { type: String, required: true }
+    },
     computed: {
-        ...mapGetters(["isAuthenticated", "currentUser"])
+        ...mapGetters(["isAuthenticated"])
     },
     methods: {
         onSave() {
@@ -43,7 +46,7 @@ export default {
                 .then(({ data }) => {
                     this.$router.push({
                         name: "ProfilePage",
-                        params: { username: currentUser.username }
+                        params: { username: this.username }
                     })
                 })
         }

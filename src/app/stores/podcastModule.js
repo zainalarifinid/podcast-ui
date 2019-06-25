@@ -50,8 +50,8 @@ export const actions = {
             })
     },
 
-    [PODCAST_SAVE]({ state }) {
-        return PodcastService.create(state.podcast);
+    [PODCAST_SAVE]({ state }, podcast) {
+        return PodcastService.create(podcast);
     },
 
     [FETCH_DETAIL_PODCAST](context, idPodcast){
@@ -66,7 +66,7 @@ export const actions = {
                             } )
     },
 
-    [PODCAST_DELETE](idPodcast){
+    [PODCAST_DELETE](context, idPodcast){
         return PodcastService.destroy(idPodcast);
     },
 

@@ -54,9 +54,10 @@ const router = new Router({
             component: Explorer
         },
         {
-            path: "/playlist-editor",
+            path: "/playlist-editor/:username",
             name: "PlaylistEditor",
-            component: PlaylistEditor
+            component: PlaylistEditor,
+            props: true
         }
         
     ]

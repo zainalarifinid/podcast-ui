@@ -96,6 +96,7 @@ export const PodcastService = {
     },
 
     destroy(slug) {
+        console.log("Delete podcast",slug);
         return ApiService.delete(`podcasts/${slug}`);
     },
 

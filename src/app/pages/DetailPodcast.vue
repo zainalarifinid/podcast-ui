@@ -12,7 +12,11 @@
                     Description <span>: {{podcast.description}}</span>
                 </v-flex>
                 <v-flex xs 12 sm8 md8 >
-                    Youtube Link <span>: {{podcast.youtubeLink}}</span>
+                    <iframe width="420" height="315"
+                    :src="podcast.youtubeLink.replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')" >
+                    </iframe>
+                    <br/>
+                    Youtube Link <span>: <a :href="podcast.youtubeLink">Go To Video</a></span>
                 </v-flex>
 
                 <v-btn
@@ -54,7 +58,7 @@
 
 import { mapGetters } from "vuex";
 import stores from "../stores";
-import { FETCH_DETAIL_PODCAST, FETCH_PLAYLIST, PLAYLIST_ADD, PLAYLIST_REMOVE } from '../stores/actionTypes';
+import { FETCH_DETAIL_PODCAST, FETCH_PLAYLIST, PLAYLIST_ADD, PLAYLIST_REMOVE, PODCAST_DELETE } from '../stores/actionTypes';
 
 export default {
     name: 'DetailPodcast',
@@ -84,15 +88,29 @@ export default {
             console.log("togglePlaylist CLicked", item.id, this.idPodcast);
             if(item.inPlaylist){
                 console.log("remove");
-                this.$store.dispatch(PLAYLIST_REMOVE, { idPlaylist: item.id, idPodcast: this.idPodcast });
+                this.$store.dispatch(PLAYLIST_REMOVE, { idPlaylist: item.id, idPodcast: this.idPodcast })
+                            .then( () => {
+                                this.$store.dispatch(FETCH_PLAYLIST, { username:  this.username, idPodcast: this.idPodcast });
+                            });
             }else{
-                this.$store.dispatch(PLAYLIST_ADD, { idPlaylist: item.id, idPodcast: this.idPodcast });
+                this.$store.dispatch(PLAYLIST_ADD, { idPlaylist: item.id, idPodcast: this.idPodcast })
+                            .then( () => {
+                                this.$store.dispatch(FETCH_PLAYLIST, { username:  this.username, idPodcast: this.idPodcast });
+                            });
             }
-            this.$store.dispatch(FETCH_PLAYLIST, { username:  this.username, idPodcast: this.idPodcast });
         },
 
         deletePodcast() {
-            console.log("deletePodcast Clicked", this.idPodcast);
+
+            this.$store.dispatch(PODCAST_DELETE, this.idPodcast)
+                       .then( () => {
+                           this.$router.push({
+                                name: "ProfilePage",
+                                params: { username: this.username }
+                            })
+                       })
+
+            // console.log("deletePodcast Clicked", this.idPodcast);
         }
     }
 }
