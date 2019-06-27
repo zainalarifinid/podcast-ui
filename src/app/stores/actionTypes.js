@@ -35,4 +35,5 @@ export const FETCH_PROFILE_RESET = 'fetchProfileReset';
 export const FETCH_LIST_FOLLOWER = 'fetchListFollower';
 export const FETCH_LIST_FOLLOWING = 'fetchListFollowing';
 export const CHECK_FOLLOWING = 'checkFollowing';
+export const PROFILE_UPDATE = 'profileUpdate';
 

@@ -30,7 +30,7 @@
 <script>
 
   import { mapState, mapGetters } from 'vuex';
-  import { REGISTER, FETCH_PROFILE_USER } from "../stores/actionTypes";
+  import { REGISTER, FETCH_PROFILE_USER, PROFILE_UPDATE, LOGOUT } from "../stores/actionTypes";
 
   export default {
     name: 'RegisterForm',
@@ -53,8 +53,29 @@
     },
     methods: {
         onSubmit(email, username, password){
-          this.$store
-            .dispatch(REGISTER, {email, username, password});
+          if(this.username){
+            this.$store
+                .dispatch(PROFILE_UPDATE, this.profile)
+                .then( () => {
+                  
+                  this.$store.dispatch(LOGOUT).then(() => {
+                      this.$router.push({ name: "HomePage" })
+                  });
+
+                  // this.$router.push({
+                  //     name: 'ProfilePage',
+                  //     params: {
+                  //         username: this.username
+                  //     }
+                  // });
+                })
+                .catch( (err) => {
+
+                });
+          }else{
+            this.$store
+                .dispatch(REGISTER, {email, username, password});
+          }
         },
 
         fetchProfile(username) {
