@@ -4,10 +4,24 @@
             <v-layout align-center class="profile-container" >
                 <v-flex xs-10 sm10 md10 >
                     <v-btn
+                        v-if="this.username === currentUser.username"
                         color="danger"
                         @click="logout"
                     >
                         Logout
+                    </v-btn>
+                    <v-btn
+                        v-if="this.username === currentUser.username"
+                        color="danger"
+                        @click="editProfile"
+                    >
+                        Edit
+                    </v-btn>
+                    <v-btn
+                        v-else
+                        @click="toggleFollow"
+                    >
+                        {{ textFollowing }}
                     </v-btn>
                     <v-card class="profile-card" >
                         <v-flex xs12 sm8 md8 >
@@ -22,10 +36,10 @@
                         <v-flex xs12 sm8 md8 >
                             <v-layout>
                                 <v-flex xs6 sm6 md6 >
-                                    Follower <span>: <router-link :to="detailFollower" >{{profile.followersCount}}</router-link> </span>
+                                    Follower <span>: <router-link :to="detailFollower()" >{{profile.followersCount}}</router-link> </span>
                                 </v-flex>
                                 <v-flex xs6 sm6 md6 >
-                                    Following <span>: {{profile.followingCount}} </span>
+                                    Following <span>: <router-link :to="detailFollowing()" >{{profile.followingCount}}</router-link> </span>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -41,7 +55,10 @@
                                     :key="index"
                                     class="playlist-card"
                                 >
-                                    {{ playlist.title }}
+                                    <router-link :to="detailPlaylist(playlist.id)" >
+                                        {{ playlist.title }}
+                                    </router-link>
+
                                 </v-card>
                             </v-layout>
                         </v-flex>
@@ -75,13 +92,15 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { FETCH_PROFILE_USER, LOGOUT, FETCH_PROFILE_RESET  } from "../stores/actionTypes";
+import { FETCH_PROFILE_USER, LOGOUT, FETCH_PROFILE_RESET, PROFILE_FOLLOW, PROFILE_UNFOLLOW  } from "../stores/actionTypes";
 import FeedPreview from "../components/FeedPreview";
 
 export default {
     name: "ProfilePage",
     data() {
-        return {};
+        return {
+            textFollowing: "Follow"
+        };
     },
     components: {
         FeedPreview
@@ -90,7 +109,7 @@ export default {
         username: { type: String, required: true }
     },
     computed: {
-        ...mapGetters(["profile"])
+        ...mapGetters(["profile", "currentUser"])
     },
     mounted(){
         this.resetProfileState();
@@ -114,17 +133,71 @@ export default {
 
         detailFollower() {
             console.log("detail Follower");
+            return {
+                name: "ListPeople",
+                params: {
+                    username: this.username,
+                    type: "follower"
+                }
+            }
         },
 
         detailFollowing() {
             console.log("detail Following");
+            return {
+                name: "ListPeople",
+                params: {
+                    username: this.username,
+                    type: "following"
+                }
+            }
+        },
+
+        detailPlaylist(idPlaylist) {
+            return {
+                name: "DetailPlaylist",
+                params: {
+                    idPlaylist: idPlaylist+'',
+                    username: this.username
+                }
+            }
         },
 
         createPlaylist() {
             return {
                 name: "CreatePlaylist",
             }
+        },
+
+        toggleFollow() {
+
+            if(this.textFollowing.toLowerCase() == "follow"){
+                
+                this.$store.dispatch(PROFILE_FOLLOW, { username: this.username })
+                            .then(() => {
+                                    this.textFollowing = "Unfollow";
+                            });
+            }else{
+
+                this.$store.dispatch(PROFILE_UNFOLLOW, { username: this.username })
+                           .then(() => {
+                                this.textFollowing = "Unfollow";
+                           });
+
+            }
+            
+        },
+
+        editProfile(){
+            this.$router.push({
+                name: 'EditProfile',
+                params: {
+                    username: this.username,
+                    profile: this.profile
+                }
+            })
         }
+
     }
 }
 </script>

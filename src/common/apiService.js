@@ -80,7 +80,7 @@ export const UserService = {
 
 export const PodcastService = {
     list() {
-        return ApiService.get("podcasts");
+        return ApiService.get("podcasts/feedPodcast");
     },
 
     get(slug) {
@@ -96,7 +96,7 @@ export const PodcastService = {
     },
 
     destroy(slug) {
-        console.log("Delete podcast",slug);
+        // console.log("Delete podcast",slug);
         return ApiService.delete(`podcasts/${slug}`);
     },
 
@@ -112,6 +112,10 @@ export const PlaylistService = {
 
     listFromUser(username, idPodcast) {
         return ApiService.post("playlists/detail-from", { username: username, idPodcast: idPodcast })
+    },
+
+    detailPlaylist(slug) {
+        return ApiService.get("playlists", slug);
     },
 
     addToPlaylist(idPlaylist, idPodcast) {

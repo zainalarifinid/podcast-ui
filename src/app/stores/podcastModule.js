@@ -63,15 +63,16 @@ export const actions = {
                             })
                             .catch( error => {
                                 throw new Error(error);
-                            } )
+                            } );
     },
 
     [PODCAST_DELETE](context, idPodcast){
         return PodcastService.destroy(idPodcast);
     },
 
-    [PODCAST_EDIT]({ state }) {
-        return PodcastService.update(state.podcast.id, state.podcast);
+    [PODCAST_EDIT]({ state }, podcast) {
+        delete(podcast["playlists"]);
+        return PodcastService.update(podcast.id, podcast);
     },
 
     [PODCAST_RESET_STATE]({ commit }) {
@@ -97,7 +98,7 @@ export const mutations = {
     },
 
     [SET_SEARCH_PODCAST](state, podcast){
-        console.log(podcast);
+        // console.log(podcast);
         state.podcasts = podcast;
         state.podcastsCount = podcast.length;
     },

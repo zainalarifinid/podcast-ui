@@ -7,7 +7,7 @@
             </v-flex>
             <v-flex xs8>
                 <v-card style="padding: 15px;min-height: 160px;" >
-                    <router-link :to="podcastLink" >
+                    <router-link :to="podcastLink()" >
                         <h2 v-text="podcast.title" />
                         <p v-text="podcast.youtubeLink" />
                         <p v-text="podcast.description" />
@@ -20,6 +20,7 @@
 
 <script>
 
+import { mapGetters } from 'vuex';
 import FeedMeta from "./FeedActions";
 
 export default {
@@ -29,15 +30,18 @@ export default {
     },
     props: {
         podcast: { type: Object, required: true },
-        username: { type: String }
+        // username: { type: String }
     },
     computed: {
+        ...mapGetters(["currentUser"])
+    },
+    methods: {
         podcastLink() {
             return {
                 name: "DetailPodcast",
                 params: {
                     idPodcast: this.podcast.id,
-                    username: this.username
+                    username: this.currentUser.username
                 }
             }
         }

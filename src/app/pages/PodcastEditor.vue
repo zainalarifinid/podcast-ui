@@ -34,7 +34,7 @@
                 <v-btn
                     type="submit"
                 >
-                    Add
+                    {{ submitButton }}
                 </v-btn>
             </v-form>
         </v-flex>
@@ -43,7 +43,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { PODCAST_SAVE, PODCAST_RESET_STATE } from '../stores/actionTypes';
+import { PODCAST_SAVE, PODCAST_RESET_STATE, FETCH_DETAIL_PODCAST, PODCAST_EDIT } from '../stores/actionTypes';
 import store from "../stores";
 export default {
     name: 'PodcastEditor',
@@ -51,24 +51,41 @@ export default {
         return {
             inProgress: false,
             errors: {},
-            podcast: Object()
+            submitButton: 'Add'
+            // podcast: Object()
         }
     },
-    // async beforeRouteUpdate(to, from, next){
-    //     await store.dispatch(PODCAST_RESET_STATE);
-    //     return next();
-    // },
-    // async beforeRouteEnter(to, from, next){
-    //     await store(PODCAST_RESET_STATE);
-    //     return next();
-    // },
+    props: {
+        idPodcast: { type: String }
+    },
     computed: {
-        // ...mapGetters["podcast"]
+        ...mapGetters(["podcast"])
+    },
+    mounted(){
+        this.fetchDetailPodcast();
+        if(this.idPodcast) {
+            this.submitButton = 'Update';
+        }
     },
     methods: {
         onPublish() {
             this.inProgress = true;
-            this.$store
+            if(this.idPodcast){
+                this.$store
+                    .dispatch(PODCAST_EDIT, this.podcast)
+                    .then(({ data }) => {
+                        this.inProgress = false;
+                        this.$router.push({
+                            name: "HomePage"
+                        });
+                    })
+                    .catch(({ response }) => {
+                        this.inProgress = false;
+                        this.errors = response;
+                        console.log(this.errors);
+                    });
+            }else{
+                this.$store
                 .dispatch(PODCAST_SAVE, this.podcast)
                 .then(({ data }) => {
                     this.inProgress = false;
@@ -80,7 +97,18 @@ export default {
                     this.inProgress = false;
                     this.errors = response;
                     console.log(this.errors);
-                })
+                });
+            }
+        },
+
+        fetchDetailPodcast(){
+            console.log("fetchDetailPodcast", this.idPodcast);
+            if(this.idPodcast && this.idPodcast !== null){
+                this.$store
+                    .dispatch(PODCAST_RESET_STATE);
+                this.$store
+                    .dispatch(FETCH_DETAIL_PODCAST, this.idPodcast);
+            }
         }
     }
 }

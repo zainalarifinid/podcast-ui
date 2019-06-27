@@ -24,7 +24,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { PLAYLIST_SAVE } from '../stores/actionTypes';
+import { PLAYLIST_SAVE, PLAYLIST_EDIT } from '../stores/actionTypes';
 export default {
     name: 'PlaylstEditor',
     data(){
@@ -33,22 +33,48 @@ export default {
         }
     },
     props: {
-        username: { type: String, required: true }
+        username: { type: String, required: true },
+        title: { type: String },
+        idPlaylist: { type: String }
     },
     computed: {
         ...mapGetters(["isAuthenticated"])
     },
+    mounted() {
+        if(this.title && this.title.length > 0) {
+            this.titlePlaylist = this.title;
+        }
+    },
     methods: {
+
+        moveToProfile() {
+            this.$router
+                .push({
+                    name: "ProfilePage",
+                    params: { username: this.username }
+                });
+        },
+
         onSave() {
             console.log("saving titlePlaylist", this.titlePlaylist);
-            this.$store
-                .dispatch( PLAYLIST_SAVE, this.titlePlaylist )
-                .then(({ data }) => {
-                    this.$router.push({
-                        name: "ProfilePage",
-                        params: { username: this.username }
+            if(this.title && this.title.length > 0) {
+
+                this.$store
+                    .dispatch( PLAYLIST_EDIT, { id: this.idPlaylist, title: this.titlePlaylist } )
+                    .then(() => {
+                        this.moveToProfile(); 
                     })
-                })
+
+            }else{
+                
+                this.$store
+                .dispatch( PLAYLIST_SAVE, this.titlePlaylist )
+                .then(() => {
+                    this.moveToProfile();
+                });
+
+            }
+
         }
     }
 }

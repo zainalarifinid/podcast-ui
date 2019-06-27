@@ -8,6 +8,9 @@ import Profile from "./app/pages/Profile";
 import Explorer from "./app/pages/Explorer";
 import PlaylistEditor from "./app/pages/PlaylistEditor";
 import DetailPodcast from "./app/pages/DetailPodcast";
+import DetailPlaylist from "./app/pages/DetailPlaylist";
+import ListPeople from "./app/pages/ListPeople";
+import EditProfile from "./app/pages/EditProfile";
 
 Vue.use(Router);
 
@@ -58,6 +61,38 @@ const router = new Router({
             name: "PlaylistEditor",
             component: PlaylistEditor,
             props: true
+        },
+        {
+            path: "/playlist-editor/edit/:username/:idPlaylist/:title",
+            name: "EditPlaylist",
+            component: PlaylistEditor,
+            props: true
+        },
+        {
+            path: "/playlist-detail/:idPlaylist/:username",
+            name: "DetailPlaylist",
+            component: DetailPlaylist,
+            props: true
+        },
+        {
+            path: "/detail/:type/:username",
+            name: "ListPeople",
+            component: ListPeople,
+            props: true
+        },
+        {
+            path: "/podcast/edit/:idPodcast",
+            name: "EditPodcast",
+            component: PodcastEditor,
+            props: true
+        },
+        {
+            path: "/profile/edit/:username",
+            name: "EditProfile",
+            component: EditProfile,
+            props: (route) => ({
+                ...route.params
+            })
         }
         
     ]

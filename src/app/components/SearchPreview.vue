@@ -4,13 +4,16 @@
             <v-flex xs8 >
                 <v-card style="padding: 15px;min-height: 30px;margin:10px;" >
                     <div v-if="typeSearch === 'user'" >
-                        <router-link :to="detailSearch" >
-                            <h2 v-text="searchResult.username" />
-                            <p v-text="searchResult.email" />
-                        </router-link>
+                        <UserPreview
+                            :searchResult="searchResult"
+                        />
                     </div>
                     <div v-else >
-                        <router-link :to="detailSearch" >
+                        <FeedPreview 
+                            :podcast="searchResult"
+                            :key="searchResult.title+searchResult.id"
+                        />
+                        <!-- <router-link :to="detailSearch" >
                             <v-layout row wrap>
                                 <v-flex xs4>
                                     <img v-bind:src="'https://img.youtube.com/vi/'+searchResult.youtubeLink.replace('https://www.youtube.com/watch?v=', '')+'/0.jpg'" width="150px" />
@@ -20,7 +23,7 @@
                                     <p v-text="searchResult.description" />
                                 </v-flex>
                             </v-layout>
-                        </router-link>
+                        </router-link> -->
                     </div>
                 </v-card>
             </v-flex>
@@ -30,8 +33,15 @@
 
 <script>
 
+import UserPreview from "./UserPreview";
+import FeedPreview from "./FeedPreview";
+
 export default {
     name: 'SearchPreview',
+    components: {
+        UserPreview,
+        FeedPreview
+    },
     props: {
         searchResult: { type: Object, required: true },
         typeSearch: { type: String, required: true }
@@ -42,17 +52,9 @@ export default {
     computed: {
         detailSearch() {
             let gotoPage = "podcast";
-            let params = {};
-            if(this.typeSearch == "user"){
-                gotoPage = "ProfilePage";
-                params = {
-                    username: this.searchResult.username,
-                }
-            }else{
-                params = {
-                    slug: this.searchResult
-                }
-            }
+            let params = {
+                            slug: this.searchResult
+                        };
             return {
                 name: gotoPage,
                 params: params

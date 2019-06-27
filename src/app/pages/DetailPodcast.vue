@@ -2,6 +2,16 @@
     <v-content>
         <v-layout>
             <v-card class="podcast-card" >
+                <v-flex align-content-space xs 12 sm8 md8 >
+                    <v-btn @click="backPage" >
+                        Back
+                    </v-btn>
+                    
+                    <v-btn @click="editPodcast" >
+                        Edit
+                    </v-btn>
+
+                </v-flex>
                 <v-flex xs 12 sm8 md8 >
                     Title <span>: {{podcast.title}}</span>
                 </v-flex>
@@ -20,6 +30,7 @@
                 </v-flex>
 
                 <v-btn
+                    v-if="podcast.user.username === this.currentUser.username"
                     color="danger"
                     @click="deletePodcast"
                 >
@@ -64,7 +75,7 @@ export default {
     name: 'DetailPodcast',
     data() {
         return {
-            userPlaylist: [ { title: "Playlist A" }, { title: "Playlist B" }, { title: "Playlist C" } ]
+            
         }
     },
     props: {
@@ -75,7 +86,7 @@ export default {
         ...mapGetters(["podcast", "playlists", "currentUser"])
     },
     mounted(){
-        console.log("currentUser", this.currentUser);
+        // console.log("currentUser", this.currentUser);
         this.fetchPodcast();
     },
     methods: {
@@ -111,6 +122,19 @@ export default {
                        })
 
             // console.log("deletePodcast Clicked", this.idPodcast);
+        },
+
+        backPage() {
+            this.$router.go(-1);
+        },
+
+        editPodcast() {
+            this.$router.push({
+                name: "EditPodcast",
+                params: {
+                    idPodcast: this.idPodcast
+                }
+            });
         }
     }
 }
