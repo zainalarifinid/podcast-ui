@@ -69,9 +69,6 @@ const getters = {
 const actions = {
   [PROFILE_UPDATE](context, profile) {
     return ApiService.post(`auth/update`, profile)
-                     .then( (data) => {
-                        console.log(data);
-                     })
   },
 
   [FETCH_PROFILE_USER](context, username) {

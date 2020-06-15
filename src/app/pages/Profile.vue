@@ -106,7 +106,7 @@ export default {
         FeedPreview
     },
     props: {
-        username: { type: String, required: true }
+        username: { type: String }
     },
     computed: {
         ...mapGetters(["profile", "currentUser"])
@@ -117,6 +117,9 @@ export default {
     },
     methods: {
         fetchProfile() {
+            if( this.username === ''){
+                this.username = this.currentUser.username;
+            }
             console.log("Profile Page Mounted", this.username, this.$route.params.username);
             this.$store.dispatch(FETCH_PROFILE_USER, this.username);
         },
